@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Head from 'next/head';
+import NavigationSidebar from '../components/NavigationSidebar';
 
 export default function Commands() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -138,14 +139,17 @@ export default function Commands() {
   };
 
   return (
-    <div className="container">
+    <div className="flex min-h-screen">
       <Head>
         <title>Custom Commands | OpenClaw</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-
-      {/* Header */}
-      <header className="header">
+      
+      <NavigationSidebar />
+      
+      <div className="container">
+        {/* Header */}
+        <header className="header">
         <h1>⌘ Custom Commands</h1>
         <p className="subtitle">Quick shortcuts for common workflows</p>
       </header>
@@ -215,10 +219,18 @@ export default function Commands() {
 
       <style jsx>{`
         .container {
+          flex: 1;
           min-height: 100vh;
           background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
           padding: 2rem;
+          padding-top: 4rem;
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        @media (min-width: 768px) {
+          .container {
+            padding-top: 2rem;
+          }
         }
 
         .header {
@@ -434,6 +446,7 @@ export default function Commands() {
           }
         }
       `}</style>
+      </div>
     </div>
   );
 }
