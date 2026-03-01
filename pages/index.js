@@ -25,12 +25,12 @@ export default function Dashboard() {
   const fetchAllData = async () => {
     try {
       const [sales, ads, systems, support, projects, products] = await Promise.all([
-        fetch('/api/sales').then(r => r.json()),
-        fetch('/api/ads').then(r => r.json()),
-        fetch('/api/systems').then(r => r.json()),
-        fetch('/api/support').then(r => r.json()),
-        fetch('/api/projects').then(r => r.json()),
-        fetch('/api/products').then(r => r.json())
+        fetch('/api/sales').then(r => r.json()).catch(() => ({ mtd: 0, yesterday: 0, today: 0 })),
+        fetch('/api/ads').then(r => r.json()).catch(() => ({ mtdSpend: 0, mtdSales: 0 })),
+        fetch('/api/systems').then(r => r.json()).catch(() => ({ online: 0, total: 0 })),
+        fetch('/api/support').then(r => r.json()).catch(() => ({ open: 0, urgent: 0 })),
+        fetch('/api/projects').then(r => r.json()).catch(() => ({ active: [] })),
+        fetch('/api/products').then(r => r.json()).catch(() => ({ products: [] }))
       ]);
 
       setData({
@@ -45,7 +45,15 @@ export default function Dashboard() {
       setLastUpdated(new Date());
     } catch (error) {
       console.error('Failed to fetch data:', error);
-      setData(prev => ({ ...prev, loading: false }));
+      setData({
+        sales: { mtd: 0, yesterday: 0, today: 0 },
+        ads: { mtdSpend: 0, mtdSales: 0 },
+        systems: { online: 0, total: 0 },
+        support: { open: 0, urgent: 0 },
+        projects: { active: [] },
+        products: { products: [] },
+        loading: false
+      });
     }
   };
 
