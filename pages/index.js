@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
+import NavigationSidebar from '../components/NavigationSidebar';
 
 export default function Dashboard() {
   const [data, setData] = useState({
@@ -50,25 +51,32 @@ export default function Dashboard() {
 
   if (data.loading) {
     return (
-      <div className="container">
+      <div className="flex min-h-screen">
         <Head>
           <title>Business Intelligence | Chad Nicely</title>
         </Head>
-        <div className="loading">
-          <div className="spinner"></div>
-          <p>Loading business intelligence...</p>
+        <NavigationSidebar />
+        <div className="container">
+          <div className="loading">
+            <div className="spinner"></div>
+            <p>Loading business intelligence...</p>
+          </div>
+          <style jsx>{styles}</style>
         </div>
-        <style jsx>{styles}</style>
       </div>
     );
   }
 
   return (
-    <div className="container">
+    <div className="flex min-h-screen">
       <Head>
         <title>Business Intelligence | Chad Nicely</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+      
+      <NavigationSidebar />
+      
+      <div className="container">
 
       {/* Header */}
       <header className="header">
@@ -291,6 +299,7 @@ export default function Dashboard() {
       </div>
 
       <style jsx>{styles}</style>
+      </div>
     </div>
   );
 }
@@ -319,9 +328,17 @@ const styles = `
   }
 
   .container {
+    flex: 1;
     max-width: 1400px;
     margin: 0 auto;
     padding: 2rem;
+    padding-top: 4rem;
+  }
+  
+  @media (min-width: 768px) {
+    .container {
+      padding-top: 2rem;
+    }
   }
 
   .loading {
