@@ -51,8 +51,13 @@ export default function NavigationSidebar() {
   const navStyle = {
     flex: 1,
     paddingTop: '8px',
-    paddingBottom: '8px'
+    paddingBottom: '8px',
+    overflowY: 'auto',
+    overflowX: 'hidden'
   };
+  
+  // Debug: Log item count
+  console.log('NavigationSidebar rendering', NAV_ITEMS.length, 'items');
 
   return (
     <div style={sidebarStyle}>
@@ -65,7 +70,8 @@ export default function NavigationSidebar() {
 
       {/* Nav Items */}
       <nav style={navStyle}>
-        {NAV_ITEMS.map((item) => {
+        {NAV_ITEMS.map((item, index) => {
+          console.log(`Rendering item ${index + 1}:`, item.label);
           const isExternal = item.href.startsWith('http');
           const isActive = pathname === item.href;
           
@@ -153,7 +159,10 @@ export default function NavigationSidebar() {
             <a
               key={item.id}
               href={item.href}
-              style={linkStyle}
+              style={{
+                ...linkStyle,
+                display: 'flex' // Ensure it renders
+              }}
               onMouseEnter={(e) => {
                 setHoveredItem(item.id);
                 e.currentTarget.style.color = 'white';
@@ -172,6 +181,17 @@ export default function NavigationSidebar() {
           );
         })}
       </nav>
+      
+      {/* Debug counter */}
+      <div style={{
+        padding: '8px',
+        textAlign: 'center',
+        fontSize: '10px',
+        color: '#6b7280',
+        borderTop: '1px solid #1f2937'
+      }}>
+        {NAV_ITEMS.length}
+      </div>
     </div>
   );
 }
