@@ -19,39 +19,104 @@ export default function NavigationSidebar() {
   const { pathname } = useRouter();
   const [hoveredItem, setHoveredItem] = useState(null);
 
+  const sidebarStyle = {
+    width: '56px',
+    height: '100%',
+    minHeight: '100vh',
+    backgroundColor: '#0a0a0a',
+    borderRight: '1px solid #1f2937',
+    display: 'flex',
+    flexDirection: 'column'
+  };
+
+  const logoContainerStyle = {
+    height: '56px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottom: '1px solid #1f2937'
+  };
+
+  const logoStyle = {
+    width: '32px',
+    height: '32px',
+    borderRadius: '8px',
+    background: 'linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  };
+
+  const navStyle = {
+    flex: 1,
+    paddingTop: '8px',
+    paddingBottom: '8px'
+  };
+
   return (
-    <div 
-      className="w-14 h-full bg-[#0a0a0a] border-r border-gray-800 flex flex-col"
-      style={{ minHeight: '100vh' }}
-    >
+    <div style={sidebarStyle}>
       {/* Logo */}
-      <div className="h-14 flex items-center justify-center border-b border-gray-800">
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center">
-          <span className="text-white text-xs font-bold">P</span>
+      <div style={logoContainerStyle}>
+        <div style={logoStyle}>
+          <span style={{ color: 'white', fontSize: '12px', fontWeight: 'bold' }}>P</span>
         </div>
       </div>
 
       {/* Nav Items */}
-      <nav className="flex-1 py-2">
+      <nav style={navStyle}>
         {NAV_ITEMS.map((item) => {
           const isExternal = item.href.startsWith('http');
           const isActive = pathname === item.href;
           
-          const linkClass = `relative flex items-center justify-center h-12 text-gray-500 hover:text-white hover:bg-gray-900 transition-all group ${
-            isActive ? 'text-purple-400 bg-gray-900' : ''
-          }`;
+          const linkStyle = {
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '48px',
+            color: isActive ? '#c084fc' : '#6b7280',
+            backgroundColor: isActive ? '#111827' : 'transparent',
+            textDecoration: 'none',
+            transition: 'all 0.2s',
+            cursor: 'pointer'
+          };
+
+          const tooltipStyle = {
+            position: 'absolute',
+            left: '100%',
+            marginLeft: '8px',
+            padding: '6px 12px',
+            backgroundColor: '#111827',
+            color: 'white',
+            fontSize: '12px',
+            fontWeight: '500',
+            borderRadius: '6px',
+            whiteSpace: 'nowrap',
+            zIndex: 50,
+            boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.3)',
+            border: '1px solid #374151'
+          };
+
+          const arrowStyle = {
+            position: 'absolute',
+            left: '0',
+            top: '50%',
+            transform: 'translate(-4px, -50%)',
+            width: 0,
+            height: 0,
+            borderTop: '5px solid transparent',
+            borderBottom: '5px solid transparent',
+            borderRight: '5px solid #111827'
+          };
 
           const content = (
             <>
-              {/* Icon */}
-              <span className="text-lg font-light">{item.icon}</span>
+              <span style={{ fontSize: '18px', fontWeight: '300' }}>{item.icon}</span>
               
-              {/* Tooltip */}
               {hoveredItem === item.id && (
-                <div className="absolute left-full ml-2 px-3 py-1.5 bg-gray-900 text-white text-xs font-medium rounded-md whitespace-nowrap z-50 shadow-2xl border border-gray-700">
+                <div style={tooltipStyle}>
                   {item.label}
-                  {/* Arrow */}
-                  <div className="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 border-[5px] border-transparent border-r-gray-900" />
+                  <div style={arrowStyle} />
                 </div>
               )}
             </>
@@ -64,9 +129,19 @@ export default function NavigationSidebar() {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={linkClass}
-                onMouseEnter={() => setHoveredItem(item.id)}
-                onMouseLeave={() => setHoveredItem(null)}
+                style={linkStyle}
+                onMouseEnter={(e) => {
+                  setHoveredItem(item.id);
+                  e.currentTarget.style.color = 'white';
+                  e.currentTarget.style.backgroundColor = '#111827';
+                }}
+                onMouseLeave={(e) => {
+                  setHoveredItem(null);
+                  if (!isActive) {
+                    e.currentTarget.style.color = '#6b7280';
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }
+                }}
               >
                 {content}
               </a>
@@ -77,9 +152,19 @@ export default function NavigationSidebar() {
             <a
               key={item.id}
               href={item.href}
-              className={linkClass}
-              onMouseEnter={() => setHoveredItem(item.id)}
-              onMouseLeave={() => setHoveredItem(null)}
+              style={linkStyle}
+              onMouseEnter={(e) => {
+                setHoveredItem(item.id);
+                e.currentTarget.style.color = 'white';
+                e.currentTarget.style.backgroundColor = '#111827';
+              }}
+              onMouseLeave={(e) => {
+                setHoveredItem(null);
+                if (!isActive) {
+                  e.currentTarget.style.color = '#6b7280';
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }
+              }}
             >
               {content}
             </a>
