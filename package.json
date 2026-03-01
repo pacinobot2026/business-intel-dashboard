@@ -1,7 +1,7 @@
 {
-  "name": "business-intel-dashboard",
+  "name": "nicelycontrol",
   "version": "1.0.0",
-  "description": "Chad's Business Intelligence Command Center",
+  "description": "Nicely Control - Command Center",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
