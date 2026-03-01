@@ -1,6 +1,8 @@
-# 🎯 Business Intelligence Dashboard
+# 🎯 Nicely Control
 
 **Your unified command center for all business operations**
+
+Live at: **https://nicelycontrol.com**
 
 ## Features
 
@@ -29,7 +31,7 @@
 ## Installation
 
 ```bash
-cd business-intel-dashboard
+cd nicelycontrol
 npm install
 npm run dev
 ```
@@ -38,13 +40,13 @@ Visit http://localhost:3000
 
 ## Production Deployment
 
-### Option 1: Vercel (Recommended)
+### Vercel
 ```bash
 npm install -g vercel
 vercel --prod
 ```
 
-### Option 2: Manual Build
+### Manual Build
 ```bash
 npm run build
 npm start
@@ -61,68 +63,40 @@ The dashboard pulls data from these internal APIs:
 - `/api/projects` - Active projects from KANBAN.md
 - `/api/products` - Product catalog
 
-## Configuration
+## Navigation
 
-### Environment Variables
-
-Create `.env.local`:
-
-```env
-WORKSPACE_PATH=/path/to/workspace
-STRIPE_SECRET_KEY=sk_...
-```
-
-### Real Data Integration
-
-To connect real data sources, update the API files in `pages/api/`:
-
-1. **Sales**: Integrate with Stripe API
-2. **Ads**: Connect to Facebook/Google Ads API
-3. **Support**: Link to support ticket system
-4. **Systems**: Already implemented (checks APIs/URLs)
-5. **Projects**: Already reads from KANBAN.md
-6. **Products**: Static list (update as needed)
+All boards accessible via left sidebar:
+- ⚡ Command Center (home)
+- ⌘ Custom Commands (/commands)
+- ◉ Business Board
+- ▦ Team Board
+- □ Operator Vault
+- ▶ Project Board
+- ◈ Article Board
+- ☆ Idea Board
+- ⊞ Video Cue
+- ⊡ Wish List
+- ▣ Resource Library
 
 ## Auto-Refresh
 
 Dashboard auto-refreshes every 5 minutes. Manual refresh available via button.
 
-## Mobile Responsive
-
-Fully responsive design works on desktop, tablet, and mobile.
-
 ## Tech Stack
 
 - **Framework**: Next.js 14
-- **Styling**: CSS-in-JS
+- **Styling**: CSS-in-JS (inline styles)
 - **Data**: REST APIs
-- **Deployment**: Vercel
+- **Deployment**: Vercel → nicelycontrol.com
 
-## Customization
+## Domain Setup
 
-### Adding New Metrics
-
-1. Create new API route in `pages/api/`
-2. Add fetch call in `pages/index.js` 
-3. Create new card component
-4. Add to grid layout
-
-### Changing Colors
-
-Update the color variables in the styles section of `pages/index.js`.
-
-### Adding Quick Actions
-
-Add new buttons in the Quick Actions card with onclick handlers.
-
-## Maintenance
-
-- Check API endpoints regularly
-- Update product list when launching new products
-- Monitor system health alerts
-- Review KANBAN.md integration
+Point your domain to Vercel:
+1. Add `nicelycontrol.com` in Vercel project settings
+2. Configure DNS with nameservers or A/CNAME records
+3. SSL auto-provisions
 
 ---
 
-**Built overnight by Pacino 🎬**  
-*2026-02-27*
+**Built by Pacino 🎬**  
+*Rebranded 2026-03-01*
