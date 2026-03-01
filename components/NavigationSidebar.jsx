@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
+// All 11 navigation items for OpenClaw Control Board
 const NAV_ITEMS = [
   { id: 'control',    label: 'Command Center',  icon: '⚡', href: '/' },
   { id: 'openclaw',   label: 'Custom Commands', icon: '⌘', href: '/commands' },
@@ -174,3 +175,4 @@ export default function NavigationSidebar() {
     </div>
   );
 }
+
