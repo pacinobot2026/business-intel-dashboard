@@ -86,6 +86,12 @@ export default function Commands() {
       details: 'Generate branded short links via PopLinks API'
     },
     {
+      command: '/poplink search',
+      category: 'Marketing',
+      description: 'Search existing PopLinks',
+      details: 'Find poplinks by name/slug and show URL + destination'
+    },
+    {
       command: '/makelive',
       category: 'Marketing',
       description: 'Publish bridge page from Google Sheets',
