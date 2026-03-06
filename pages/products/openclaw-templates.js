@@ -6,6 +6,7 @@ import { loadStripe } from '@stripe/stripe-js'
 const stripePromise = loadStripe('pk_live_51T4AreCDxYH1XF8Fyl7NlP772dWq4MlWGBjtSMJPBTXFBu3rkunAgU19e9BUeSr7ryNLGLKieyCqr9FsTn8xgrZH002kdFzZaM')
 
 export default function OpenClawTemplates() {
+  const [selectedPack, setSelectedPack] = useState(null)
   const [loading, setLoading] = useState(false)
 
   const handleCheckout = async (priceId, packName) => {
