@@ -1,15 +1,41 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import { useState } from 'react'
+import { loadStripe } from '@stripe/stripe-js'
+
+const stripePromise = loadStripe('pk_live_51T4AreCDxYH1XF8Fyl7NlP772dWq4MlWGBjtSMJPBTXFBu3rkunAgU19e9BUeSr7ryNLGLKieyCqr9FsTn8xgrZH002kdFzZaM')
 
 export default function OpenClawTemplates() {
   const [selectedPack, setSelectedPack] = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  const handleCheckout = async (priceId, packName) => {
+    setLoading(true)
+    try {
+      const stripe = await stripePromise
+      const { error } = await stripe.redirectToCheckout({
+        lineItems: [{ price: priceId, quantity: 1 }],
+        mode: 'payment',
+        successUrl: `${window.location.origin}/products/openclaw-templates/success`,
+        cancelUrl: `${window.location.origin}/products/openclaw-templates`,
+      })
+      if (error) {
+        console.error('Stripe error:', error)
+        alert('Checkout error. Please try again.')
+      }
+    } catch (err) {
+      console.error('Error:', err)
+      alert('Something went wrong. Please try again.')
+    }
+    setLoading(false)
+  }
 
   const packs = [
     {
       id: 'ecommerce',
       name: 'E-Commerce Operator',
       price: 197,
+      priceId: 'price_1T7pbNCDxYH1XF8FkLgfIcEf',
       features: [
         'Customer service agent (inquiries, refunds, tracking)',
         'Inventory monitor with smart alerts',
@@ -22,6 +48,7 @@ export default function OpenClawTemplates() {
       id: 'coaching',
       name: 'Coaching/Consulting Business',
       price: 197,
+      priceId: 'price_1T7pbXCDxYH1XF8FHnGxJBho',
       features: [
         'Client onboarding automation',
         'Content creator (posts, newsletters from notes)',
@@ -34,6 +61,7 @@ export default function OpenClawTemplates() {
       id: 'local',
       name: 'Local Service Business',
       price: 197,
+      priceId: 'price_1T7pbeCDxYH1XF8Fsdlg2YZA',
       features: [
         'Instant lead response agent',
         'Appointment scheduler (book, confirm, remind)',
@@ -108,10 +136,11 @@ export default function OpenClawTemplates() {
                   ))}
                 </ul>
                 <button
-                  onClick={() => setSelectedPack(pack)}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition"
+                  onClick={() => handleCheckout(pack.priceId, pack.name)}
+                  disabled={loading}
+                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-500 text-white font-semibold py-3 px-6 rounded-lg transition"
                 >
-                  Get This Pack
+                  {loading ? 'Loading...' : 'Get This Pack'}
                 </button>
               </div>
             ))}
@@ -131,10 +160,11 @@ export default function OpenClawTemplates() {
                 <span className="text-5xl font-bold text-white">$497</span>
               </div>
               <button
-                onClick={() => setSelectedPack({ id: 'bundle', name: 'All 3 Packs', price: 497 })}
-                className="bg-white text-blue-600 hover:bg-gray-100 font-bold text-xl py-4 px-12 rounded-lg transition"
+                onClick={() => handleCheckout('price_1T7pbpCDxYH1XF8FbGEiXauX', 'Complete Bundle')}
+                disabled={loading}
+                className="bg-white text-blue-600 hover:bg-gray-100 disabled:bg-gray-300 font-bold text-xl py-4 px-12 rounded-lg transition"
               >
-                Get the Bundle Now
+                {loading ? 'Loading...' : 'Get the Bundle Now'}
               </button>
             </div>
           </div>
@@ -203,16 +233,18 @@ export default function OpenClawTemplates() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
-                onClick={() => setSelectedPack(packs[0])}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg py-4 px-8 rounded-lg transition"
+                onClick={() => handleCheckout(packs[0].priceId, packs[0].name)}
+                disabled={loading}
+                className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-500 text-white font-semibold text-lg py-4 px-8 rounded-lg transition"
               >
-                Get E-Commerce Pack - $197
+                {loading ? 'Loading...' : 'Get E-Commerce Pack - $197'}
               </button>
               <button
-                onClick={() => setSelectedPack({ id: 'bundle', name: 'All 3 Packs', price: 497 })}
-                className="bg-purple-600 hover:bg-purple-700 text-white font-semibold text-lg py-4 px-8 rounded-lg transition"
+                onClick={() => handleCheckout('price_1T7pbpCDxYH1XF8FbGEiXauX', 'Complete Bundle')}
+                disabled={loading}
+                className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-500 text-white font-semibold text-lg py-4 px-8 rounded-lg transition"
               >
-                Get All 3 Packs - $497
+                {loading ? 'Loading...' : 'Get All 3 Packs - $497'}
               </button>
             </div>
           </div>
